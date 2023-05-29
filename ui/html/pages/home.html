@@ -1,23 +1,33 @@
 {{define "title"}}Home{{end}}
 
 {{define "main"}}
-    <h2>Latest Snippets</h2>
-    {{if .Snippets}}
-     <table>
-        <tr>
-            <th>Title</th>
-            <th>Created</th>
-            <th>ID</th>
-        </tr>
-        {{range .Snippets}}
-        <tr>
-            <td><a href='/snippet/view?id={{.ID}}'>{{.Title}}</a></td>
-            <td>{{humanDate .Created}}</td>
-            <td>#{{.ID}}</td>
-        </tr>
-        {{end}}
-    </table>
-    {{else}}
-        <p>There's nothing to see here... yet!</p>
-    {{end}}
+    <main class="container pt-4">
+        <h3 class="mt-6">Latest Snippets</h3>
+        <div class="card">
+            <div class="card-body">
+                {{if .Snippets}}
+                    <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col" class="text-end">Created</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {{range .Snippets}}
+                            <tr>
+                                <td>#{{.ID}}</td>
+                                <td><a href='/snippet/view?id={{.ID}}'>{{.Title}}</a></td>
+                                <td class="text-end">{{humanDate .Created}}</td>
+                            </tr>
+                            {{end}}
+                        </tbody>
+                      </table>
+                {{else}}
+                    <p>There's nothing to see here... yet!</p>
+                {{end}}
+            </div>
+        </div>
+    </main>
 {{end}}
