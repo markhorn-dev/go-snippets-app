@@ -5,14 +5,15 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/go-chi/chi"
 	"github.com/markhorn-dev/go-snippets-app/internal/models"
 )
 
+// ===============================================================================
+// home is the handler for /
+// ===============================================================================
+
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		app.notFound(w)
-		return
-	}
 
 	snippets, err := app.snippets.Latest()
 	if err != nil {
@@ -23,12 +24,19 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	data := app.newTemplateData(r)
 	data.Snippets = snippets
 
-	// Pass the data to the render() helper as normal.
 	app.render(w, http.StatusOK, "home.html", data)
 }
 
+// ===============================================================================
+// snippetView is the handler for /snippet/view/123
+// ===============================================================================
+
 func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+
+	ctx := r.Context()
+	sid := chi.URLParamFromCtx(ctx, "id")
+	id, err := strconv.Atoi(sid)
+
 	if err != nil || id < 1 {
 		app.notFound(w)
 		return
@@ -50,10 +58,18 @@ func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
 	app.render(w, http.StatusOK, "view.html", data)
 }
 
+// ===============================================================================
+// snippetCreate is the get handler for /snippet/create
+// ===============================================================================
+
 func (app *application) snippetCreate(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		w.Header().Set("Allow", http.MethodPost)
-		app.clientError(w, http.StatusMethodNotAllowed)
-		return
-	}
+	w.Write([]byte("Create/Get"))
+}
+
+// ===============================================================================
+// snippetCreate is the post handler for /snippet/create
+// ===============================================================================
+
+func (app *application) snippetCreatePost(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Create/Post"))
 }
