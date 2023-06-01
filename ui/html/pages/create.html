@@ -1,0 +1,28 @@
+{{define "title"}}Create a New Snippet{{end}}
+
+{{define "main"}}
+    <main class="container pt-4">
+        <h4 class="mt-6">Create Snippet</h4>
+        <div class="card">
+            <div class="card-body">
+                <form action='/snippet/create' method='POST'>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        {{with .Form.FieldErrors.title}}
+                            <div><label class='text-danger'>{{.}}</label></div>
+                        {{end}}
+                        <input type="text" name="title" class="form-control {{with .Form.FieldErrors.title}}is-invalid{{end}}" id="title" value="{{.Form.Title}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Content</label>
+                        {{with .Form.FieldErrors.content}}
+                            <div><label class='text-danger'>{{.}}</label></div>
+                        {{end}}
+                        <textarea name='content' class="form-control {{with .Form.FieldErrors.content}}is-invalid{{end}}" rows="10">{{.Form.Content}}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Publish</button>
+                </form>
+            </div>
+        </div>
+    </main>
+{{end}}
