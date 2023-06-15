@@ -14,6 +14,7 @@ func (app *application) routes() http.Handler {
 	router.Use(app.recoverPanic)
 	router.Use(app.logRequest)
 	router.Use(secureHeaders)
+	router.Use(app.sessionManager.LoadAndSave)
 
 	// Serve static files
 	fs := http.FileServer(http.Dir("./ui/static/"))

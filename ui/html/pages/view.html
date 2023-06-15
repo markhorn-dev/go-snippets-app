@@ -1,8 +1,15 @@
 {{define "title"}}Snippet #{{.Snippet.ID}}{{end}}
 
 {{define "main"}}
-    {{with .Snippet}}   
-        <main class="container pt-4">
+    <main class="container pt-4">
+        {{with .Flash}}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> {{.}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {{end}}
+
+        {{with .Snippet}}   
             <div class="row mt-6">
                 <div class="col">
                     <h4>{{.Title}}</h4>
@@ -16,6 +23,6 @@
                     <pre><code>{{.Content}}</code></pre>
                 </div>
             </div>  
-        </main>
-    {{end}}
-{{end}}
+        {{end}}
+    </main>
+{{end}} 
